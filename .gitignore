@@ -1,0 +1,11 @@
+# .gitignore
+*.log
+target/
+build/
+.gradle/
+.idea/
+*.iml
+*.class
+.env
+venv/
+__pycache__/
