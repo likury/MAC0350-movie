@@ -9,3 +9,10 @@ fun MovieEntity.toDto(): MovieDto = MovieDto(
     title = this.title,
     posterPath = this.posterPath
 )
+
+fun MovieDto.toEntity(): MovieEntity = MovieEntity(
+    id = this.id,
+    tmdbId = this.tmdbId,
+    title = this.title,
+    posterPath = this.posterPath
+)

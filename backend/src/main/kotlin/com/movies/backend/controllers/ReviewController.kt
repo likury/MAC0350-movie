@@ -18,14 +18,17 @@ class ReviewController(
     private val movieService: MovieService
 ) {
 
-    @PostMapping("/user/{userId}/movie/{movieId}")
+    @PostMapping("/user/{userId}/movie/{tmdbId}")
     fun submitReview(
         @PathVariable userId: Long,
-        @PathVariable movieId: Long,
+        @PathVariable tmdbId: Long,
         @RequestBody request: SubmitReviewRequest
     ): ResponseEntity<ReviewDto> {
         val user = userService.findById(userId).orElseThrow { RuntimeException("User not found") }
-        val movie = movieService.findByTmdbId(movieId) ?: throw RuntimeException("Movie not found")
+        
+        // Get movie details from TMDB and save to our database if not exists
+        val movieDto = movieService.getMovieDetails(tmdbId)
+        val movie = movieService.findByTmdbId(tmdbId) ?: throw RuntimeException("Failed to save movie")
 
         val saved = reviewService.save(
             ReviewEntity(
@@ -39,9 +42,9 @@ class ReviewController(
         return ResponseEntity.ok(saved.toDto())
     }
 
-    @GetMapping("/movie/{movieId}")
-    fun getReviewsByMovie(@PathVariable movieId: Long): ResponseEntity<List<ReviewDto>> {
-        val movie = movieService.findByTmdbId(movieId) ?: return ResponseEntity.notFound().build()
+    @GetMapping("/movie/{tmdbId}")
+    fun getReviewsByMovie(@PathVariable tmdbId: Long): ResponseEntity<List<ReviewDto>> {
+        val movie = movieService.findByTmdbId(tmdbId) ?: return ResponseEntity.notFound().build()
         val reviews = reviewService.getByMovie(movie)
         return ResponseEntity.ok(reviews.map { it.toDto() })
     }

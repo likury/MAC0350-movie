@@ -8,6 +8,7 @@ fun ReviewEntity.toDto(): ReviewDto {
         id = this.id,
         userId = this.user.id!!,
         movieId = this.movie.id!!,
+        tmdbMovieId = this.movie.tmdbId,
         content = this.content,
         rating = this.rating,
         createdAt = this.createdAt

@@ -28,8 +28,21 @@ class MovieController(
 
     @GetMapping("/tmdb/{tmdbId}")
     fun getMovieByTmdbId(@PathVariable tmdbId: Long): ResponseEntity<MovieDto> {
-        val movie = movieService.findByTmdbId(tmdbId)
-        return movie?.let { ResponseEntity.ok(it.toDto()) }
-            ?: ResponseEntity.notFound().build()
+        return ResponseEntity.ok(movieService.getMovieDetails(tmdbId))
+    }
+
+    @GetMapping("/search")
+    fun searchMovies(
+        @RequestParam query: String,
+        @RequestParam(defaultValue = "1") page: Int
+    ): ResponseEntity<List<MovieDto>> {
+        return ResponseEntity.ok(movieService.searchMovies(query, page))
+    }
+
+    @GetMapping("/popular")
+    fun getPopularMovies(
+        @RequestParam(defaultValue = "1") page: Int
+    ): ResponseEntity<List<MovieDto>> {
+        return ResponseEntity.ok(movieService.getPopularMovies(page))
     }
 }
