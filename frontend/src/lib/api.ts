@@ -52,5 +52,23 @@ export const api = {
     getMovieDetails: async (tmdbId: number): Promise<MovieDto> => {
         const response = await axios.get(`${API_URL}/movies/tmdb/${tmdbId}`);
         return response.data;
+    },
+
+    getPopularMovies: async (page: number = 1): Promise<MovieDto[]> => {
+        const response = await axios.get(`${API_URL}/movies/popular?page=${page}`);
+        return response.data;
+    },
+
+    searchMovies: async (query: string, page: number = 1): Promise<MovieDto[]> => {
+        const response = await axios.get(`${API_URL}/movies/search?query=${encodeURIComponent(query)}&page=${page}`);
+        return response.data;
+    },
+
+    submitReview: async (userId: number, tmdbId: number, content: string, rating: number): Promise<ReviewDto> => {
+        const response = await axios.post(`${API_URL}/reviews/user/${userId}/movie/${tmdbId}`, {
+            content,
+            rating
+        });
+        return response.data;
     }
 }; 
