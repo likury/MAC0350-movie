@@ -122,6 +122,12 @@
             <div class="profile-header">
                 <h1>{user.username}'s Profile</h1>
             </div>
+
+            <div class="profile-navigation">
+                <a href="/user/{user.username}" class="nav-link active">Profile</a>
+                <a href="/user/{user.username}/social" class="nav-link">Social</a>
+                <a href="/user/{user.username}/feed" class="nav-link">Feed</a>
+            </div>
             
             <div class="profile-content">
                 <div class="info-card">
@@ -339,6 +345,34 @@
         color: #14181f;
         margin: 0;
         font-size: 2rem;
+    }
+
+    .profile-navigation {
+        display: flex;
+        background-color: #14181f;
+        border-bottom: 1px solid #2c3440;
+    }
+
+    .nav-link {
+        flex: 1;
+        padding: 1rem;
+        text-align: center;
+        color: #9ab;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s;
+        border-bottom: 2px solid transparent;
+    }
+
+    .nav-link:hover {
+        background-color: #2c3440;
+        color: #fff;
+    }
+
+    .nav-link.active {
+        color: #00e054;
+        border-bottom-color: #00e054;
+        background-color: #1a1f2b;
     }
 
     .profile-content {
